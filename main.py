@@ -1,10 +1,7 @@
 import os
 from openai import OpenAI
 
-client = OpenAI(
-    # defaults to os.environ.get("OPENAI_API_KEY")
-    api_key=os.environ.get("OPENAI_API_KEY"),
-)
+client = OpenAI()
 
 def chat_gpt(prompt):
     response = client.chat.completions.create(
