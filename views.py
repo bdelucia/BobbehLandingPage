@@ -1,16 +1,8 @@
-import os
+from flask import Blueprint, render_template
 from openai import OpenAI
-from flask import Flask
-from views import views
 
-app = Flask(__name__)
+views = Blueprint(__name__, "views")
 
-app.register_blueprint(views, url_prefix="/")
-
-if __name__ == '__main__':
-    app.run(debug=True, port=8000)
-
-# chatGPT api implementation
 client = OpenAI()
 
 def chat_gpt(prompt):
@@ -20,5 +12,7 @@ def chat_gpt(prompt):
     )
     return response.choices[0].message.content.strip()
 
-print(chat_gpt("Give me a fun fact"))
 
+@views.route("/")
+def home():
+    return render_template("index.html", funFact = chat_gpt("Tell me a fun fact"))
