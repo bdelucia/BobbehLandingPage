@@ -1,12 +1,18 @@
+import os
+
+import openai
+from dotenv import load_dotenv
 from flask import Blueprint, render_template
 from openai import OpenAI
 
 views = Blueprint(__name__, "views")
 
-client = OpenAI()
+load_dotenv()
+#client = OpenAI()
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def chat_gpt(prompt):
-    response = client.chat.completions.create(
+    response = openai.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}]
     )

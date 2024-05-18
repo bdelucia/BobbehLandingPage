@@ -1,5 +1,3 @@
-import os
-from openai import OpenAI
 from flask import Flask
 from views import views
 
