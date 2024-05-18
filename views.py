@@ -1,16 +1,16 @@
 import os
-
 import openai
 from dotenv import load_dotenv
 from flask import Blueprint, render_template
-from openai import OpenAI
 
+# Flask blueprint loading
 views = Blueprint(__name__, "views")
 
+# Getting key from secret python env file
 load_dotenv()
-#client = OpenAI()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+# Function to generate response from ChatGPT
 def chat_gpt(prompt):
     response = openai.chat.completions.create(
         model="gpt-3.5-turbo",
@@ -18,7 +18,7 @@ def chat_gpt(prompt):
     )
     return response.choices[0].message.content.strip()
 
-
+# Renders index.html with passed chatGPT-generated funFact
 @views.route("/")
 def home():
     return render_template("index.html", funFact = chat_gpt("Tell me a fun fact"))
