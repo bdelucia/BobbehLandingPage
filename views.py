@@ -8,7 +8,8 @@ views = Blueprint(__name__, "views")
 
 # Getting key from secret python env file
 load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai_api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = openai_api_key
 
 # Function to generate response from ChatGPT
 def chat_gpt(prompt):
