@@ -21,7 +21,20 @@ async def get_weather_data(city):
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={openweather_api_key}&units=imperial"
     async with httpx.AsyncClient() as client:
         response = await client.get(url)
+
+    # Check for errors
+    if response.status_code != 200:
+        print("Error response from OpenWeather API:", response.json())
+        response.raise_for_status()
+
+    # Check if 'main' key is in the response
+    if 'main' not in response.json():
+        print("KeyError: 'main' not found in weather data response")
+        print("Full response:", response.json())
+        raise KeyError("'main' key not found in weather data response")
+
     return response.json()
+
 
 def get_random_fun_fact_prompt():
     prompts = [
@@ -39,13 +52,25 @@ def get_random_fun_fact_prompt():
 
 # Function to generate response from ChatGPT
 async def chat_gpt(prompt):
-    response = await openai.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.8,
-        top_p=0.8
-    )
-    return response.choices[0].message.content.strip()
+    url = "https://api.openai.com/v1/chat/completions"
+    headers = {
+        "Authorization": f"Bearer {openai.api_key}",
+        "Content-Type": "application/json"
+    }
+    data = {
+        "model": "gpt-3.5-turbo",
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0.8,
+        "top_p": 0.8
+    }
+
+    async with httpx.AsyncClient() as client:
+        response = await client.post(url, headers=headers, json=data)
+
+    # Check for errors
+    response.raise_for_status()
+
+    return response.json()["choices"][0]["message"]["content"].strip()
 
 # Renders index.html with passed arguments
 @views.route("/")
