@@ -1,10 +1,11 @@
 import os
 import openai
-import requests
+import httpx
 import math
 import random
 from dotenv import load_dotenv
 from flask import Blueprint, render_template
+import asyncio
 
 # Flask blueprint loading
 views = Blueprint(__name__, "views")
@@ -16,9 +17,10 @@ openai.api_key = openai_api_key
 openweather_api_key = os.getenv("OPENWEATHER_API_KEY")
 
 # Function to generate weather data
-def get_weather_data(city):
+async def get_weather_data(city):
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={openweather_api_key}&units=imperial"
-    response = requests.get(url)
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url)
     return response.json()
 
 def get_random_fun_fact_prompt():
@@ -33,12 +35,11 @@ def get_random_fun_fact_prompt():
         "What is a fun fact about a popular dish that originated from a specific region in 50 words or less?",
         "What’s a fun fact about an invention that had unexpected consequences in 50 words or less?"
     ]
-    
     return random.choice(prompts)
 
 # Function to generate response from ChatGPT
-def chat_gpt(prompt):
-    response = openai.chat.completions.create(
+async def chat_gpt(prompt):
+    response = await openai.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.8,
@@ -48,8 +49,11 @@ def chat_gpt(prompt):
 
 # Renders index.html with passed arguments
 @views.route("/")
-def home():
-    weather_data = get_weather_data("85308")
-    rounded_temp = math.ceil(weather_data["main"]["temp"]) # Rounds temperature up to whole number for better presentation
-    prompt = get_random_fun_fact_prompt()
-    return render_template("index.html", funFact = chat_gpt(prompt), weather_data=weather_data, rounded_temp=rounded_temp)
+async def home():
+    # Run tasks concurrently
+    weather_data, fun_fact = await asyncio.gather(
+        get_weather_data("85308"),
+        chat_gpt(get_random_fun_fact_prompt())
+    )
+    rounded_temp = math.ceil(weather_data["main"]["temp"])  # Rounds temperature up to whole number for better presentation
+    return render_template("index.html", funFact=fun_fact, weather_data=weather_data, rounded_temp=rounded_temp)
