@@ -22,15 +22,15 @@ def get_weather_data(city):
 
 def get_random_fun_fact_prompt():
     prompts = [
-        "Tell me a unique fun fact about space.",
-        "What's an unusual fun fact about the solar system that isn't commonly known?",
-        "Give me three unique fun facts about animals.",
-        "What are some surprising discoveries in science that changed our understanding of the world?",
-        "Tell me about an interesting event in history that most people don’t know about.",
-        "What’s a little-known fact about a famous person?",
-        "Tell me an unusual fact about a sports event or athlete that might surprise fans.",
-        "What is a fun fact about a popular dish that originated from a specific region?",
-        "What’s a fun fact about an invention that had unexpected consequences?"
+        "Tell me a unique fun fact about space in one or two sentences.",
+        "What's an unusual fun fact about the solar system that isn't commonly known in one or two sentences",
+        "Give me three unique fun facts about animals in one or two sentences.",
+        "What are some surprising discoveries in science that changed our understanding of the world in one or two sentences?",
+        "Tell me about an interesting event in history that most people don’t know about in one or two sentences.",
+        "What’s a little-known fact about a famous person in one or two sentences?",
+        "Tell me an unusual fact about a sports event or athlete that might surprise fans in one or two sentences.",
+        "What is a fun fact about a popular dish that originated from a specific region in one or two sentences?",
+        "What’s a fun fact about an invention that had unexpected consequences in one or two sentences?"
     ]
     
     return random.choice(prompts)
@@ -39,7 +39,9 @@ def get_random_fun_fact_prompt():
 def chat_gpt(prompt):
     response = openai.chat.completions.create(
         model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": prompt}]
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.8,
+        top_p=0.8
     )
     return response.choices[0].message.content.strip()
 
