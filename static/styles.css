@@ -16,7 +16,7 @@ body {
     box-shadow: 0 4px 12px #03dac6;
     max-width: 600px;
     text-align: center;
-    animation: rgb Shadow 2s infinite alternate;
+    animation: rgbShadow 2s infinite alternate;
 }
 a {
     outline: none;
