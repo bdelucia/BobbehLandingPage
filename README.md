@@ -1,4 +1,5 @@
-# My custom landing page for Firefox
+# My custom landing page for Firefox 
+![image](https://github.com/user-attachments/assets/668f62d3-9fed-40d8-b15b-6deb57cded8a)
+
 # Deployed via Render at: https://funfactusingchatgptapi.onrender.com/
-# Generates a fun fact using ChatGPT API and also generates weather data using OpenWeather API. 
-# Weather data is only for my zip code currently, feel free to make a fork and change the zip code parameter in views.py's home() function if you want your own city
+#GITHUB PAGES DEPLOYMENT DOESN'T WORK
