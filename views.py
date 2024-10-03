@@ -6,7 +6,7 @@ from flask import Blueprint, render_template
 # Flask blueprint loading
 views = Blueprint(__name__, "views")
 
-# Getting key from secret python env file
+# Getting keys from secret python env file
 load_dotenv()
 openai_api_key = os.getenv("OPENAI_API_KEY")
 openai.api_key = openai_api_key
@@ -22,4 +22,6 @@ def chat_gpt(prompt):
 # Renders index.html with passed chatGPT-generated funFact
 @views.route("/")
 def home():
-    return render_template("index.html", funFact = chat_gpt("Tell me a fun fact"))
+    load_dotenv()
+    openweather_api_key = os.getenv("OPENWEATHER_API_KEY")
+    return render_template("index.html", funFact = chat_gpt("Tell me a fun fact"), openweather_api_key=openweather_api_key)
