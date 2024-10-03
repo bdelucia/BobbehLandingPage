@@ -5,7 +5,7 @@ main = Flask(__name__)
 
 main.register_blueprint(views, url_prefix="/")
 
-##if __name__ == '__main__':
-    ##app.run(debug=True, port=8000)
+if __name__ == '__main__':
+    main.run(debug=True, port=8000)
 
 

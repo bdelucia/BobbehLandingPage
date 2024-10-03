@@ -11,6 +11,15 @@
         <h1>Hello Master Bobbeh</h1>
         <h2>Your fun fact of the day:</h2>
         <p>{{ funFact }}</p>
+        <a href="https://www.youtube.com">
+            <img src="{{ url_for('static', filename='YouTube.png') }}" alt="YouTube">
+        </a>
+        <a href="https://www.canvas.asu.edu">
+            <img src="{{ url_for('static', filename='canvas.png') }}" alt="Canvas ASU">
+        </a>
+        <a href="https://www.gmail.com">
+            <img src="{{ url_for('static', filename='gmail.png') }}" alt="Gmail">
+        </a>
     </div>
 </body>
 </html>
