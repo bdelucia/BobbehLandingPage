@@ -14,11 +14,34 @@ load_dotenv()
 openai_api_key = os.getenv("OPENAI_API_KEY")
 openai.api_key = openai_api_key
 openweather_api_key = os.getenv("OPENWEATHER_API_KEY")
+news_api_key = os.getenv("NEWS_API_KEY")
 
 def get_weather_data(city):
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={openweather_api_key}&units=imperial"
     response = requests.get(url)
     return response.json()
+
+def get_news():
+    url = (
+        'https://newsapi.org/v2/top-headlines?'
+       'country=us&'
+       'category=technology&'
+       f'apiKey={news_api_key}'
+       )
+    response = requests.get(url)
+    news_data = response.json()
+
+    # Extract the articles
+    articles = []
+    if news_data["status"] == "ok":
+        for article in news_data["articles"]:
+            articles.append({
+                "title": article["title"],
+                "description": article["description"],
+                "url": article["url"]
+            })
+
+    return articles
 
 
 def get_random_fun_fact_prompt():
@@ -51,4 +74,5 @@ def home():
     weather_data = get_weather_data("85308")
     rounded_temp = math.ceil(weather_data["main"]["temp"]) # Rounds temperature up to whole number for better presentation
     prompt = get_random_fun_fact_prompt()
-    return render_template("index.html", funFact = chat_gpt(prompt), weather_data=weather_data, rounded_temp=rounded_temp)
+    news_articles = get_news()
+    return render_template("index.html", funFact = chat_gpt(prompt), weather_data=weather_data, rounded_temp=rounded_temp, news_articles=news_articles)
