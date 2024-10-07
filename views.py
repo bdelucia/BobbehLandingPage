@@ -31,7 +31,8 @@ def get_news():
     )
     response = requests.get(url)
     news_data = response.json()
-    # Get the top 3 articles
+
+    # Get the top 5 articles
     articles = [article for article in news_data['articles'] if '[Removed]' not in article['title']]
     return articles[:5] if articles else []
 
@@ -39,7 +40,7 @@ def get_fun_fact():
     url = 'https://api.api-ninjas.com/v1/facts?'
     response = requests.get(url, headers={'X-Api-Key': fact_api_key})
     fact = response.json()
-    return fact[0]['fact']
+    return fact[0]['fact'] + "!"
 
 # Renders index.html with passed arguments
 @views.route("/")
