@@ -17,19 +17,27 @@
             Condition: {{ weather_data.weather[0].description | capitalize }}, 
             Humidity: {{ weather_data.main.humidity }}%
         </p>
-        <a href="https://www.youtube.com">
+        <h2>Top 3 Science-y Articles Today:</h2>
+        <ul>
+            {% for article in news_articles %}
+                <li class="news-article">
+                    <a href="{{ article.url }}" class="news-article">{{ article.title }}</a><br>
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="https://www.youtube.com" class="icons">
             <img src="{{ url_for('static', filename='YouTube.png') }}">
         </a>
-        <a href="https://weblogin.asu.edu/cas/login?service=https%3A%2F%2Fcanvas.asu.edu%2Flogin%2Fcas">
+        <a href="https://weblogin.asu.edu/cas/login?service=https%3A%2F%2Fcanvas.asu.edu%2Flogin%2Fcas" class="icons">
             <img src="{{ url_for('static', filename='canvas.png') }}">
         </a>
-        <a href="https://www.gmail.com">
+        <a href="https://www.gmail.com" class="icons">
             <img src="{{ url_for('static', filename='gmail.png') }}">
         </a>
-        <a href="https://www.github.com">
+        <a href="https://www.github.com" class="icons">
             <img src="{{ url_for('static', filename='github.png') }}">
         </a>
-        <a href="https://www.reddit.com">
+        <a href="https://www.reddit.com" class="icons">
             <img src="{{ url_for('static', filename='reddit.png') }}">
         </a>
     </div>

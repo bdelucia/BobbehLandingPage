@@ -24,24 +24,15 @@ def get_weather_data(city):
 def get_news():
     url = (
         'https://newsapi.org/v2/top-headlines?'
-       'country=us&'
-       'category=technology&'
-       f'apiKey={news_api_key}'
-       )
+        'country=us&'
+        'category=science&'
+        f'apiKey={news_api_key}'
+    )
     response = requests.get(url)
     news_data = response.json()
-
-    # Extract the articles
-    articles = []
-    if news_data["status"] == "ok":
-        for article in news_data["articles"]:
-            articles.append({
-                "title": article["title"],
-                "description": article["description"],
-                "url": article["url"]
-            })
-
-    return articles
+    # Get the top 3 articles
+    articles = [article for article in news_data['articles'] if '[Removed]' not in article['title']]
+    return articles[:3] if articles else []
 
 
 def get_random_fun_fact_prompt():
