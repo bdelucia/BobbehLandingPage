@@ -20,6 +20,10 @@ body {
     animation: rgbShadow 8s infinite;
 }
 
+.container#news {
+    margin: 30px;
+}
+
 li.news-article {
     margin: 10px;
     background-color: #333;

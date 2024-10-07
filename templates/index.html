@@ -17,14 +17,6 @@
             Condition: {{ weather_data.weather[0].description | capitalize }}, 
             Humidity: {{ weather_data.main.humidity }}%
         </p>
-        <h2>Top 3 Science-y Articles Today:</h2>
-        <ul>
-            {% for article in news_articles %}
-                <li class="news-article">
-                    <a href="{{ article.url }}" class="news-article">{{ article.title }}</a><br>
-                </li>
-            {% endfor %}
-        </ul>
         <a href="https://www.youtube.com" class="icons">
             <img src="{{ url_for('static', filename='YouTube.png') }}">
         </a>
@@ -40,6 +32,16 @@
         <a href="https://www.reddit.com" class="icons">
             <img src="{{ url_for('static', filename='reddit.png') }}">
         </a>
+    </div>
+    <div class="container" id="news">
+        <h2>Today's Top Science Articles:</h2>
+        <ul>
+            {% for article in news_articles %}
+                <li class="news-article">
+                    <a href="{{ article.url }}" class="news-article">{{ article.title }}</a><br>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
     
 </body>

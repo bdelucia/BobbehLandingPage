@@ -32,7 +32,7 @@ def get_news():
     news_data = response.json()
     # Get the top 3 articles
     articles = [article for article in news_data['articles'] if '[Removed]' not in article['title']]
-    return articles[:3] if articles else []
+    return articles[:5] if articles else []
 
 
 def get_random_fun_fact_prompt():
