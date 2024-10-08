@@ -3,7 +3,7 @@ import openai
 import math
 import random
 from dotenv import load_dotenv
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, redirect, url_for
 import requests
 
 # Flask blueprint loading
@@ -11,8 +11,8 @@ views = Blueprint(__name__, "views")
 
 # Getting keys from secret python env file
 load_dotenv()
-#openai_api_key = os.getenv("OPENAI_API_KEY")
-#openai.api_key = openai_api_key
+openai_api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = openai_api_key
 openweather_api_key = os.getenv("OPENWEATHER_API_KEY")
 news_api_key = os.getenv("NEWS_API_KEY")
 fact_api_key = os.getenv("API_NINJAS_KEY")
@@ -40,13 +40,32 @@ def get_fun_fact():
     url = 'https://api.api-ninjas.com/v1/facts?'
     response = requests.get(url, headers={'X-Api-Key': fact_api_key})
     fact = response.json()
-    return fact[0]['fact'] + "!"
+    return fact[0]['fact']
 
-# Renders index.html with passed arguments
-@views.route("/")
-def home():
+def get_api_responses():
+    # API responses
     weather_data = get_weather_data("85308")
     rounded_temp = math.ceil(weather_data["main"]["temp"]) # Rounds temperature up to whole number for better presentation
     funFact = get_fun_fact()
     news_articles = get_news()
-    return render_template("index.html", funFact = funFact, weather_data=weather_data, rounded_temp=rounded_temp, news_articles=news_articles)
+    return weather_data, rounded_temp, funFact, news_articles
+
+@views.route('/process_prompt', methods=['POST'])
+def process_prompt():
+    prompt = request.form.get('prompt')
+
+    response = openai.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens = 100
+    )
+
+    weather_data, rounded_temp, funFact, news_articles = get_api_responses()
+    response = response.choices[0].message.content.strip()
+    return render_template('index.html', funFact = funFact, weather_data=weather_data, rounded_temp=rounded_temp, news_articles=news_articles, response=response)
+
+# Renders index.html with passed arguments
+@views.route("/")
+def home():
+    weather_data, rounded_temp, funFact, news_articles = get_api_responses()
+    return render_template("index.html", funFact = funFact, weather_data=weather_data, rounded_temp=rounded_temp, news_articles=news_articles, response=None)

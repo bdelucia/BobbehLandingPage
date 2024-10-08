@@ -18,10 +18,7 @@ body {
     max-width: 600px;
     text-align: center;
     animation: rgbShadow 8s infinite;
-}
-
-.container#news {
-    margin: 30px;
+    margin: 15px;
 }
 
 li.news-article {
@@ -31,7 +28,6 @@ li.news-article {
     border-radius: 5px;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
     color: #f1f1f1;
-    box-shadow: 0 4px 12px #03dac6;
 }
 a.news-article {
     font-size: 1.2em;
