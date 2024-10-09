@@ -60,12 +60,12 @@ def process_prompt():
         max_tokens = 100
     )
 
-    weather_data, rounded_temp, funFact, news_articles = get_api_responses()
     response = response.choices[0].message.content.strip()
-    return render_template('index.html', funFact = funFact, weather_data=weather_data, rounded_temp=rounded_temp, news_articles=news_articles, response=response)
+    return redirect(url_for('views.home', response=response))
 
 # Renders index.html with passed arguments
 @views.route("/")
 def home():
     weather_data, rounded_temp, funFact, news_articles = get_api_responses()
-    return render_template("index.html", funFact = funFact, weather_data=weather_data, rounded_temp=rounded_temp, news_articles=news_articles, response=None)
+    response = request.args.get('response', None)
+    return render_template("index.html", funFact = funFact, weather_data=weather_data, rounded_temp=rounded_temp, news_articles=news_articles, response=response)
