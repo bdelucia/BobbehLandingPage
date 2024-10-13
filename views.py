@@ -50,6 +50,8 @@ def get_api_responses():
     news_articles = get_news()
     return weather_data, rounded_temp, funFact, news_articles
 
+get_api_responses()
+
 @views.route('/process_prompt', methods=['POST'])
 def process_prompt():
     prompt = request.form.get('prompt')
