@@ -10,10 +10,9 @@ body {
     height: 100vh;
 }
 
-.container {
-    /*display: flex;*/
+.container { 
     background-color: #1e1e1e;
-    padding: 15px;
+    padding: 5px;
     border-radius: 10px;
     box-shadow: 0 4px 12px #03dac6;
     max-width: 600px;
