@@ -10,6 +10,14 @@ body {
     height: 100vh;
 }
 
+.mainBox {
+    display: flex;
+    flex: 1; 
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
 .container {
     background-color: #1e1e1e;
     padding: 15px;
