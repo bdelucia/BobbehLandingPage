@@ -20,13 +20,17 @@ body {
 
 .container {
     background-color: #1e1e1e;
-    padding: 15px;
+    padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 12px #03dac6;
     max-width: 600px;
     text-align: center;
     animation: rgbShadow 8s infinite;
     margin: 15px;
+}
+
+.container#news {
+    padding: 15px;
 }
 
 li.news-article {
