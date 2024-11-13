@@ -7,15 +7,20 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh; /* Allows the page to grow vertically */
+    overflow-y: auto; /* Enables vertical scrolling on the body */
 }
 
 .mainBox {
     display: flex;
-    flex: 1; 
     flex-wrap: wrap;
-    align-items: center;
     justify-content: center;
+    align-items: flex-start; /* Aligns items to the top */
+    width: 100%; /* Full width to prevent overflow issues */
+    padding: 20px; /* Add padding to prevent cutting off content */
+    box-sizing: border-box; /* Ensures padding is included in width */
+    overflow-y: auto; /* Allows scrolling within the flex container */
+    max-width: 100%; /* Prevents overflow */
 }
 
 .container {
@@ -27,6 +32,8 @@ body {
     text-align: center;
     animation: rgbShadow 8s infinite;
     margin: 15px;
+    box-sizing: border-box; /* Ensures padding doesn't cause overflow */
+    flex: 1 1 300px; /* Allows it to shrink and wrap on small screens */
 }
 
 .container#news {
